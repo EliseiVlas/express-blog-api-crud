@@ -6,32 +6,25 @@
     const router = express.Router();
 
 // importiamo il roputer dei piatti
-const dataPiatti = require('../data/posts');
+const piattiController = require('../controllers/piattiControler');
 
 // rotte di CRUD dei piatti
 // index
-router.get('/', function (req, res) {
-    res.send(dataPiatti);
-});
+router.get('/', piattiController.index);
+
 // show
-router.get('/:id', function (req, res) {
-    res.send(dataPiatti[req.params.id]);
-});
+router.get('/:id', piattiController.show);
+
 // store
-router.post('/', function (req, res) {
-    res.send('Creazione di un nuovo piatto');
-});
+router.post('/', piattiController.store);
+
 // update
-router.put('/:id', function (req, res) {
-    res.send('Modifica integrale dell piatto ' + req.params.id);
-});
+router.put('/:id', piattiController.update);
+
 // modify
-router.patch('/:id', function (req, res) {
-    res.send('Modifica parziale dell piatto' + req.params.id);
-});
+router.patch('/:id', piattiController.modify);
+
 // destroy
-router.delete('/:id', function (req, res) {
-    res.send('Eliminazione dell piatto ' + req.params.id);
-});
+router.delete('/:id', piattiController.destroy);
 // esportiamo il modulo del router
 module.exports = router;
