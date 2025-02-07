@@ -46,7 +46,30 @@ function show(req, res) {
 };
 // store
 function store(req, res) {
-    res.send('Creazione di un nuovo piatto');
+
+    // Creiamo un nuovo id incrementando l'ultimo id presente
+    const ultimoPiatto = dataPiatti[dataPiatti.length - 1];
+    const idUltimoPiatto = ultimoPiatto.id;
+    const newId = idUltimoPiatto + 1;
+
+    // Creiamo un nuovo oggetto pizza
+    const nuovoPiatto = {
+        id: newId,
+        title: req.body.title,
+        content: req.body.content,
+        image: req.body.image,
+        tags: req.body.tags
+    }
+
+    // Aggiungiamo la nuova pizza al menu
+    dataPiatti.push(nuovoPiatto);
+    
+    // controlliamo
+    console.log(dataPiatti);
+    
+    // Restituiamo lo status corretto e la pizza appena creata
+    res.status(201);
+    res.json(nuovoPiatto);
 };
 // update
 function update(req, res) {
