@@ -63,7 +63,7 @@ function store(req, res) {
 
     // Aggiungiamo la nuova pizza al menu
     dataPiatti.push(nuovoPiatto);
-    
+
     // controlliamo
     console.log(dataPiatti);
     
@@ -73,7 +73,35 @@ function store(req, res) {
 };
 // update
 function update(req, res) {
-    res.send('Modifica integrale dell piatto ' + req.params.id);
+
+   // recuperiamo l'id dall' URL e trasformiamolo in numero
+    const id = parseInt(req.params.id);
+
+    // cerchiamo la pizza tramite id
+    const piatto = dataPiatti.find(pizza => pizza.id === id);
+
+    // Facciamo il controllo
+    if (!piatto) {
+        // ritorno lo stato di errore 404, non trovato
+        res.status(404);
+        // ritorno un messaggio di errore (formato json)
+        return res.json({
+            error: "Not Found",
+            message: "Pizza non trovata"
+        })
+    }
+    //  modifichiamo i dati della pizza trovata
+    piatto.title = req.body.title;
+    piatto.content = req.body.content;
+    piatto.image = req.body.image;
+    piatto.tags = req.body.tags;
+
+    // stampiamo in console il menu
+    console.log(dataPiatti);
+
+    // ritorniamo l'oggetto modificato
+    res.json(piatto);
+
 };
 // modify
 function modify (req, res){
