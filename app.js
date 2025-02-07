@@ -12,10 +12,12 @@ const piattiRouter = require('./routers/posts');
 // definiamo la cartella per i file statici (le immagini)
 app.use(express.static("./public/imgs/posts/"));
 
+// registro il body-parser per "application/json"
+app.use(express.json());
+
 // progetto base con rotta "/"
 app.get('/', (req, res) => {
    res.send("Ciao sono la rotta Home, dell mio locale!!!");
-   
 });
 
 // utilizziamo la rotta dei piatti andando a definire la parte iniziale delle rotte
