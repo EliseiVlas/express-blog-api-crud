@@ -25,8 +25,8 @@ function show(req, res) {
     // recuperiamo l'id dall' URL e trasformiamolo in numero
     const id = parseInt(req.params.id)
 
-    // cerchiamo il pizza tramite id
-    const piatti = dataPiatti.find(pizza => pizza.id === id);
+    // cerchiamo il piatto tramite id
+    const piatti = dataPiatti.find(piatto => piatto.id === id);
 
     // Facciamo il controllo
     if (!piatti) {
@@ -37,7 +37,7 @@ function show(req, res) {
         // ritorno un messaggio di errore (formato json)
         return res.json({
             error: "Not Found",
-            message: "Pizza non trovata"
+            message: "piatto non trovata"
         })
     }
 
@@ -52,7 +52,7 @@ function store(req, res) {
     const idUltimoPiatto = ultimoPiatto.id;
     const newId = idUltimoPiatto + 1;
 
-    // Creiamo un nuovo oggetto pizza
+    // Creiamo un nuovo oggetto piatto
     const nuovoPiatto = {
         id: newId,
         title: req.body.title,
@@ -61,13 +61,13 @@ function store(req, res) {
         tags: req.body.tags
     }
 
-    // Aggiungiamo la nuova pizza al menu
+    // Aggiungiamo il nuovo piatto al menu
     dataPiatti.push(nuovoPiatto);
 
     // controlliamo
     console.log(dataPiatti);
     
-    // Restituiamo lo status corretto e la pizza appena creata
+    // Restituiamo lo status corretto e il piatto appena creato
     res.status(201);
     res.json(nuovoPiatto);
 };
@@ -77,8 +77,8 @@ function update(req, res) {
    // recuperiamo l'id dall' URL e trasformiamolo in numero
     const id = parseInt(req.params.id);
 
-    // cerchiamo la pizza tramite id
-    const piatto = dataPiatti.find(pizza => pizza.id === id);
+    // cerchiamo il piatto tramite id
+    const piatto = dataPiatti.find(piatto => piatto.id === id);
 
     // Facciamo il controllo
     if (!piatto) {
@@ -87,10 +87,10 @@ function update(req, res) {
         // ritorno un messaggio di errore (formato json)
         return res.json({
             error: "Not Found",
-            message: "Pizza non trovata"
+            message: "piatto non trovata"
         })
     }
-    //  modifichiamo i dati della pizza trovata
+    //  modifichiamo i dati dell piatto trovato
     piatto.title = req.body.title;
     piatto.content = req.body.content;
     piatto.image = req.body.image;
@@ -105,14 +105,40 @@ function update(req, res) {
 };
 // modify
 function modify (req, res){
-    res.send('Modifica parziale dell piatto' + req.params.id);
+    // recuperiamo l'id dall' URL e trasformiamolo in numero
+    const id = parseInt(req.params.id);
+
+    // cerchiamo il piatto tramite id
+    const piatto = dataPiatti.find(piatto => piatto.id === id);
+
+    // Facciamo il controllo
+    if (!piatto) {
+        // ritorno lo stato di errore 404, non trovato
+        res.status(404);
+        // ritorno un messaggio di errore (formato json)
+        return res.json({
+            error: "Not Found",
+            message: "Piatto non trovata"
+        })
+    }
+    //  modifichiamo i dati parziali dell piatto trovata
+    req.body.title ? piatto.title = req.body.title : piatto.title = piatto.title;
+    req.body.content ? piatto.content = req.body.content : piatto.content = piatto.content;
+    req.body.image ? piatto.image = req.body.image : piatto.image = piatto.image;
+    req.body.tags ? piatto.tags = req.body.tags : piatto.tags = piatto.tags;
+
+    // stampiamo in console il menu
+    console.log(dataPiatti);
+
+    // ritorniamo l'oggetto modificato
+    res.json(piatto);
 };
 // destroy
 function destroy(req, res) {
     // recuperiamo l'id dall' URL e trasformiamolo in numero
     const id = parseInt(req.params.id)
-    // cerchiamo il pizza tramite id
-    const piatti = dataPiatti.find(pizza => pizza.id === id);
+    // cerchiamo il piatto tramite id
+    const piatti = dataPiatti.find(piatto => piatto.id === id);
     // Facciamo il controllo
     if (!piatti) {
         // ritorno lo stato di errore 404, non trovato
@@ -120,10 +146,10 @@ function destroy(req, res) {
         // ritorno un messaggio di errore (formato json)
         return res.json({
             error: "Not Found",
-            message: "Pizza non trovata"
+            message: "piatto non trovata"
         })
     }
-    // cancello la pizza trovata
+    // cancello il piatto trovato
     dataPiatti.splice(dataPiatti.indexOf(piatti), 1);
     // log di riscontro di check su aggiornamento dati
     console.log(dataPiatti);
